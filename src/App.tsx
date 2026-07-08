@@ -17,6 +17,7 @@ const AppContent: React.FC = () => {
   const { activePhaseId } = useStateContext();
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isTimerOpen, setIsTimerOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [noteModal, setNoteModal] = useState<{ isOpen: boolean; probId: string | null; probName: string }>({
     isOpen: false,
     probId: null,
@@ -42,16 +43,16 @@ const AppContent: React.FC = () => {
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Top Navbar */}
-      <Navbar onOpenTimer={() => setIsTimerOpen(true)} onShowToast={showToast} />
+      <Navbar onOpenTimer={() => setIsTimerOpen(true)} onOpenSidebar={() => setIsSidebarOpen(true)} onShowToast={showToast} />
 
       {/* Main App Body */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative">
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} onShowToast={showToast} />
 
         {/* Main View Area */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-zinc-100 dark:bg-zinc-950 transition-colors duration-200">
-          <div className="max-w-7xl mx-auto pb-16">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-6 md:p-8 bg-zinc-100 dark:bg-zinc-950 transition-colors duration-200">
+          <div className="max-w-7xl mx-auto pb-20">
             {activePhaseId === -1 ? (
               <OverviewDashboard />
             ) : (

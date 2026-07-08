@@ -83,22 +83,22 @@ export const TimerModal: React.FC<TimerModalProps> = ({ isOpen, onClose, onShowT
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn">
       <div
-        className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-2xl flex flex-col gap-5 transform transition-all scale-100"
+        className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col gap-4 sm:gap-5 transform transition-all scale-100 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3 sm:pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center shrink-0">
               <TimerIcon className="w-4 h-4" />
             </div>
-            <h3 className="text-base font-extrabold text-zinc-900 dark:text-white">
+            <h3 className="text-base font-extrabold text-zinc-900 dark:text-white truncate">
               Coding Practice Timer
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
           >
             <X className="w-4 h-4" />
           </button>
@@ -122,8 +122,8 @@ export const TimerModal: React.FC<TimerModalProps> = ({ isOpen, onClose, onShowT
         </div>
 
         {/* Clock Display */}
-        <div className="py-8 text-center">
-          <div className="text-6xl font-black font-mono text-zinc-900 dark:text-white tracking-tighter">
+        <div className="py-5 sm:py-8 text-center">
+          <div className="text-5xl sm:text-6xl font-black font-mono text-zinc-900 dark:text-white tracking-tighter">
             {formatTime(seconds)}
           </div>
         </div>
@@ -132,7 +132,7 @@ export const TimerModal: React.FC<TimerModalProps> = ({ isOpen, onClose, onShowT
         <div className="flex justify-center gap-3">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className={`flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-extrabold shadow-md transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl text-sm font-extrabold shadow-md transition-all cursor-pointer ${
               isRunning
                 ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-amber-500/30'
                 : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/30'
@@ -152,7 +152,7 @@ export const TimerModal: React.FC<TimerModalProps> = ({ isOpen, onClose, onShowT
           </button>
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-5 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer border border-zinc-200 dark:border-zinc-700"
+            className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer border border-zinc-200 dark:border-zinc-700"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset</span>

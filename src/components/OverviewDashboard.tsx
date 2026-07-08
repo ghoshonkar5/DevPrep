@@ -93,7 +93,7 @@ export const OverviewDashboard: React.FC = () => {
   return (
     <div className="flex flex-col gap-6">
       {/* Top Banner */}
-      <div className="p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm transition-colors duration-200">
+      <div className="p-5 sm:p-8 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm transition-colors duration-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -104,7 +104,7 @@ export const OverviewDashboard: React.FC = () => {
                 • Structured Curriculum
               </span>
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
               Comprehensive Progress Tracker
             </h1>
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
@@ -116,7 +116,7 @@ export const OverviewDashboard: React.FC = () => {
         </div>
 
         {/* Stat Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Total */}
           <div className="p-5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/80 dark:border-zinc-700/50 hover:border-zinc-300 dark:hover:border-zinc-600 transition-all">
             <div className="flex items-center justify-between mb-3">
@@ -370,7 +370,7 @@ export const OverviewDashboard: React.FC = () => {
                   </h3>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
+                  <table className="w-full min-w-[500px] text-left border-collapse text-xs">
                     <thead>
                       <tr className="border-b border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 uppercase font-extrabold">
                         <th className="py-2.5 px-3">Subject</th>
@@ -427,9 +427,9 @@ export const OverviewDashboard: React.FC = () => {
       </div>
 
       {/* Toolbar & Filter Bar */}
-      <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4 shadow-xs sticky top-0 z-20 transition-colors duration-200">
+      <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4 shadow-xs sticky top-0 z-20 transition-colors duration-200">
         {/* Search */}
-        <div className="flex items-center gap-2.5 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-lg px-3.5 py-2 flex-1 min-w-[240px] max-w-md focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors">
+        <div className="flex items-center gap-2.5 bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 rounded-lg px-3.5 py-2 flex-1 min-w-[200px] w-full sm:w-auto max-w-none sm:max-w-md focus-within:border-indigo-500 dark:focus-within:border-indigo-400 transition-colors">
           <Search className="w-4 h-4 text-zinc-400 shrink-0" />
           <input
             type="text"
@@ -441,43 +441,43 @@ export const OverviewDashboard: React.FC = () => {
         </div>
 
         {/* Filter Groups */}
-        <div className="flex flex-wrap items-center gap-6">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-start">
           {/* Difficulty */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase mr-1">
+          <div className="flex items-center gap-1 flex-wrap">
+            <span className="text-[10px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase mr-1">
               Diff:
             </span>
             {(['ALL', 'E', 'M', 'H'] as const).map((diff) => (
               <button
                 key={diff}
                 onClick={() => setFilters((prev) => ({ ...prev, difficulty: diff }))}
-                className={`px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer border ${
+                className={`px-2.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer border ${
                   filters.difficulty === diff
                     ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                     : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700/80 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                 }`}
               >
-                {diff === 'ALL' ? 'All' : diff === 'E' ? 'Easy' : diff === 'M' ? 'Medium' : 'Hard'}
+                {diff === 'ALL' ? 'All' : diff === 'E' ? 'Easy' : diff === 'M' ? 'Med' : 'Hard'}
               </button>
             ))}
           </div>
 
           {/* Status */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase mr-1">
+          <div className="flex items-center gap-1 flex-wrap">
+            <span className="text-[10px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase mr-1">
               Status:
             </span>
             {(['ALL', 'todo', 'in-progress', 'revise', 'done'] as const).map((st) => (
               <button
                 key={st}
                 onClick={() => setFilters((prev) => ({ ...prev, status: st }))}
-                className={`px-3 py-1 text-xs font-bold rounded-full transition-all cursor-pointer border capitalize ${
+                className={`px-2.5 py-1 text-xs font-bold rounded-full transition-all cursor-pointer border capitalize ${
                   filters.status === st
                     ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
                     : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700/80 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                 }`}
               >
-                {st === 'ALL' ? 'All' : st === 'in-progress' ? 'In Progress' : st === 'revise' ? 'Revise' : st === 'done' ? 'Done' : 'Todo'}
+                {st === 'ALL' ? 'All' : st === 'in-progress' ? 'Prog' : st === 'revise' ? 'Rev' : st === 'done' ? 'Done' : 'Todo'}
               </button>
             ))}
           </div>
