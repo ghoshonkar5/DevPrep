@@ -5,7 +5,7 @@ import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 
 export type ProblemStatus = 'todo' | 'in-progress' | 'revise' | 'done';
 export type ThemeMode = 'dark' | 'light';
-export type ActiveTab = 'dsa' | 'sql' | 'cs-core';
+export type ActiveTab = 'dsa' | 'sql' | 'cs-core' | 'tcs-nqt';
 export type DsaOption = 'standard' | 'practice';
 
 export interface Filters {

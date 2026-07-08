@@ -4,6 +4,7 @@ import { DSA_ROADMAP } from '../data/dsa';
 import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 import { SQL_ROADMAP as SQL_DATA } from '../data/sql';
 import { CS_CORE_ROADMAP } from '../data/cs-core';
+import { TCS_NQT_ROADMAP } from '../data/tcs-nqt';
 import { LayoutDashboard, CheckCircle2, X, Download, Upload } from 'lucide-react';
 
 interface SidebarProps {
@@ -14,7 +15,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onShowToast }) => {
   const { activeTab, setActiveTab, dsaOption, setDsaOption, activePhaseId, setActivePhaseId, getStatus, exportData, importData } = useStateContext();
-  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_DATA : CS_CORE_ROADMAP;
+  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_DATA : activeTab === 'cs-core' ? CS_CORE_ROADMAP : TCS_NQT_ROADMAP;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,12 +64,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onShowToast }
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div className="flex gap-1 p-1 rounded-xl bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/50 dark:border-zinc-700/50">
+          <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-zinc-200/70 dark:bg-zinc-800/80 border border-zinc-300/50 dark:border-zinc-700/50">
             <button
               onClick={() => setActiveTab('dsa')}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'dsa'
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
+                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 font-extrabold'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-300/40 dark:hover:bg-zinc-700/50'
               }`}
             >
@@ -76,9 +77,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onShowToast }
             </button>
             <button
               onClick={() => setActiveTab('sql')}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'sql'
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
+                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 font-extrabold'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-300/40 dark:hover:bg-zinc-700/50'
               }`}
             >
@@ -86,13 +87,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onShowToast }
             </button>
             <button
               onClick={() => setActiveTab('cs-core')}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 activeTab === 'cs-core'
-                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
+                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 font-extrabold'
                   : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-300/40 dark:hover:bg-zinc-700/50'
               }`}
             >
               CS Core
+            </button>
+            <button
+              onClick={() => setActiveTab('tcs-nqt')}
+              className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                activeTab === 'tcs-nqt'
+                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30 font-extrabold'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-300/40 dark:hover:bg-zinc-700/50'
+              }`}
+            >
+              <span>⚡ TCS NQT</span>
             </button>
           </div>
           {activeTab === 'dsa' && (

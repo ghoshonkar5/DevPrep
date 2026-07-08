@@ -4,7 +4,8 @@ import { DSA_ROADMAP } from '../data/dsa';
 import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 import { SQL_ROADMAP } from '../data/sql';
 import { CS_CORE_ROADMAP, PRIORITY_GUIDE, SKIPPED_SUBJECTS } from '../data/cs-core';
-import { Search, Trophy, CheckCircle, AlertCircle, HelpCircle, Compass, ShieldAlert, Star, Clock, RotateCw, CheckCircle2, ArrowUpRight, Bookmark } from 'lucide-react';
+import { TCS_NQT_ROADMAP, TCS_ROLES, TCS_COACH_TOPICS, TCS_AI_PROMPT } from '../data/tcs-nqt';
+import { Search, Trophy, CheckCircle, AlertCircle, HelpCircle, Compass, ShieldAlert, Star, Clock, RotateCw, CheckCircle2, ArrowUpRight, Bookmark, Copy, Check, Award, Target, Zap, BookOpen, AlertTriangle } from 'lucide-react';
 
 interface DashboardItem {
   id: string;
@@ -13,7 +14,7 @@ interface DashboardItem {
   domain: string;
   diff: string;
   url?: string;
-  roadmapType: 'dsa' | 'sql' | 'cs-core';
+  roadmapType: 'dsa' | 'sql' | 'cs-core' | 'tcs-nqt';
   roadmapName: string;
   phaseId: number;
   status: string;
@@ -22,9 +23,11 @@ interface DashboardItem {
 
 export const OverviewDashboard: React.FC = () => {
   const { activeTab, setActiveTab, dsaOption, setActivePhaseId, calculateStats, filters, setFilters, resetFilters, getStatus, isBookmarked, toggleBookmark } = useStateContext();
-  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_ROADMAP : CS_CORE_ROADMAP;
+  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_ROADMAP : activeTab === 'cs-core' ? CS_CORE_ROADMAP : TCS_NQT_ROADMAP;
   const stats = calculateStats(roadmap);
   const [actionTab, setActionTab] = useState<'in-progress' | 'revise' | 'important' | 'done'>('in-progress');
+  const [selectedCoachId, setSelectedCoachId] = useState<string>('num-sys');
+  const [copiedPrompt, setCopiedPrompt] = useState<boolean>(false);
 
   // Collect actionable items across all roadmaps
   const getAllItems = () => {
@@ -33,6 +36,7 @@ export const OverviewDashboard: React.FC = () => {
       { r: dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP, type: 'dsa' as const, name: 'DSA' },
       { r: SQL_ROADMAP, type: 'sql' as const, name: 'SQL' },
       { r: CS_CORE_ROADMAP, type: 'cs-core' as const, name: 'CS Core' },
+      { r: TCS_NQT_ROADMAP, type: 'tcs-nqt' as const, name: 'TCS NQT' },
     ];
 
     roadmapsToScan.forEach(({ r, type, name }) => {
@@ -98,7 +102,7 @@ export const OverviewDashboard: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 border border-indigo-500/20">
-                {activeTab === 'dsa' ? (dsaOption === 'standard' ? 'DSA Standard Roadmap' : 'DSA Practice Roadmap') : activeTab === 'sql' ? 'SQL Database Roadmap' : 'CS Core & Tech Prep Roadmap'}
+                {activeTab === 'dsa' ? (dsaOption === 'standard' ? 'DSA Standard Roadmap' : 'DSA Practice Roadmap') : activeTab === 'sql' ? 'SQL Database Roadmap' : activeTab === 'cs-core' ? 'CS Core & Tech Prep Roadmap' : '⚡ TCS NQT 2026 Master Curriculum'}
               </span>
               <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
                 • Structured Curriculum
@@ -110,6 +114,8 @@ export const OverviewDashboard: React.FC = () => {
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
               {activeTab === 'cs-core'
                 ? 'Master OOPs, DBMS, OS, Computer Networks, Security, System Design, SDLC, Aptitude, and rapid DSA revision. Built for cracking top SDE & full-stack technical rounds.'
+                : activeTab === 'tcs-nqt'
+                ? 'Master TCS NQT Foundational (Aptitude, Verbal, Reasoning) & Advanced (Quant, 80% Repeated Coding Patterns, 20% Advanced DSA). One exam decides your tier: Ninja (3.5LPA), Digital (7LPA), or Prime (9-10LPA).'
                 : 'Master algorithmic patterns, data structures, and relational database queries. Track your completion, revision notes, and daily practice streaks in one place.'}
             </p>
           </div>
@@ -421,6 +427,204 @@ export const OverviewDashboard: React.FC = () => {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TCS NQT Section: Role Guide & AI Coach */}
+        {activeTab === 'tcs-nqt' && (
+          <div className="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-8">
+            {/* Role Tiers Grid */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Target className="w-5 h-5 text-indigo-500" />
+                <h3 className="text-lg font-extrabold text-zinc-900 dark:text-white">
+                  One Exam Decides Your Role (3 Hours • No Negative Marking • AI Proctored)
+                </h3>
+              </div>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-4 font-semibold">
+                Foundation Cutoff decides if your Advanced score even matters! Ensure high accuracy in Aptitude, Verbal, and Reasoning first.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {TCS_ROLES.map((role, idx) => (
+                  <div key={idx} className={`p-5 rounded-2xl border flex flex-col justify-between ${role.badgeColor.replace('text-', 'border-').split(' ')[0]} bg-white dark:bg-zinc-800/60 shadow-xs hover:shadow-md transition-all`}>
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-sm font-black px-3 py-1 rounded-full border ${role.badgeColor}`}>
+                          {role.role} Role
+                        </span>
+                        <span className="text-base font-extrabold text-zinc-900 dark:text-white font-mono">
+                          {role.package}
+                        </span>
+                      </div>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-300 font-semibold leading-relaxed mt-3">
+                        {role.requirement}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* AI Coach & PYQ Traps Center */}
+            <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-700/80">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Zap className="w-5 h-5 text-amber-500 fill-amber-500" />
+                    <h3 className="text-base font-extrabold text-zinc-900 dark:text-white">
+                      TCS NQT Interactive Coach & PYQ Trap Review
+                    </h3>
+                  </div>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold">
+                    Select a topic to view 5-min concept refreshers, shortcuts, PYQ traps, and practice MCQs.
+                  </p>
+                </div>
+              </div>
+
+              {/* Topic Selection Bar */}
+              <div className="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-thin">
+                {TCS_COACH_TOPICS.map((top) => (
+                  <button
+                    key={top.id}
+                    onClick={() => setSelectedCoachId(top.id)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer border shrink-0 flex items-center gap-1.5 ${
+                      selectedCoachId === top.id
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                        : 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700'
+                    }`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>{top.title}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Selected Topic Display */}
+              {(() => {
+                const current = TCS_COACH_TOPICS.find((t) => t.id === selectedCoachId) || TCS_COACH_TOPICS[0];
+                return (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Left Column: Refreshers, Formulas & Shortcuts */}
+                    <div className="flex flex-col gap-5">
+                      {/* Concept Refresher */}
+                      <div className="p-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-2.5 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-4 h-4" />
+                          <span>5-Minute Concept Refresher</span>
+                        </h4>
+                        <ul className="flex flex-col gap-1.5 text-xs text-zinc-700 dark:text-zinc-300 font-semibold list-disc list-inside">
+                          {current.refresher.map((r, i) => (
+                            <li key={i} className="leading-relaxed">{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Key Formulas & Shortcuts */}
+                      <div className="p-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-2.5 flex items-center gap-1.5">
+                          <Award className="w-4 h-4" />
+                          <span>Formulas & Shortcuts</span>
+                        </h4>
+                        <div className="flex flex-col gap-2">
+                          <div className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Formulas:</div>
+                          <ul className="flex flex-col gap-1 text-xs text-zinc-700 dark:text-zinc-300 font-semibold list-disc list-inside mb-2">
+                            {current.formulas.map((f, i) => (
+                              <li key={i}>{f}</li>
+                            ))}
+                          </ul>
+                          <div className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Speed Shortcuts:</div>
+                          <ul className="flex flex-col gap-1 text-xs text-emerald-700 dark:text-emerald-400 font-bold list-disc list-inside">
+                            {current.shortcuts.map((s, i) => (
+                              <li key={i}>{s}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* PYQ Traps */}
+                      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 dark:bg-amber-500/10 dark:border-amber-500/30">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-2.5 flex items-center gap-1.5">
+                          <AlertTriangle className="w-4 h-4" />
+                          <span>PYQ Traps TCS Commonly Asks</span>
+                        </h4>
+                        <div className="flex flex-col gap-3">
+                          {current.pyqTraps.map((tr, i) => (
+                            <div key={i} className="p-2.5 rounded-lg bg-white/80 dark:bg-zinc-800/80 border border-amber-500/20">
+                              <div className="text-xs font-black text-amber-700 dark:text-amber-400 mb-0.5">{tr.title}</div>
+                              <div className="text-xs text-zinc-700 dark:text-zinc-300 font-semibold leading-relaxed">{tr.desc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Practice Questions & AI Prompt */}
+                    <div className="flex flex-col gap-5">
+                      {/* Practice Questions */}
+                      <div className="p-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 flex-1">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3 flex items-center gap-1.5">
+                          <Target className="w-4 h-4" />
+                          <span>Practice MCQs ({current.practiceQuestions.length} Questions)</span>
+                        </h4>
+                        <div className="flex flex-col gap-4 max-h-[420px] overflow-y-auto pr-1 scrollbar-thin">
+                          {current.practiceQuestions.map((pq, i) => (
+                            <div key={i} className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-700/40 border border-zinc-200/60 dark:border-zinc-600/60">
+                              <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+                                Q{i + 1}. {pq.q}
+                              </div>
+                              <div className="grid grid-cols-2 gap-1.5">
+                                {pq.options.map((opt, j) => (
+                                  <div key={j} className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                                    {opt}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* AI Coach Prompt Copy Box */}
+                      <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/30 dark:bg-indigo-500/10 dark:border-indigo-500/30">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                            <Zap className="w-4 h-4" />
+                            <span>AI Coach Prompt (For ChatGPT / Claude)</span>
+                          </h4>
+                          <button
+                            onClick={() => {
+                              const promptToCopy = TCS_AI_PROMPT.replace('[TOPIC]', current.title);
+                              navigator.clipboard.writeText(promptToCopy);
+                              setCopiedPrompt(true);
+                              setTimeout(() => setCopiedPrompt(false), 2000);
+                            }}
+                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-bold hover:bg-indigo-700 transition-all cursor-pointer shadow-2xs"
+                          >
+                            {copiedPrompt ? (
+                              <>
+                                <Check className="w-3 h-3" />
+                                <span>Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3" />
+                                <span>Copy Prompt</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <p className="text-[11px] text-zinc-600 dark:text-zinc-400 font-semibold mb-2">
+                          Copy and paste this prompt into your favorite AI tool to get interactive coaching, custom tests, and instant evaluation on <strong className="text-indigo-600 dark:text-indigo-400">{current.title}</strong>:
+                        </p>
+                        <div className="p-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-indigo-500/20 text-[11px] font-mono text-zinc-700 dark:text-zinc-300 leading-relaxed overflow-x-auto">
+                          {TCS_AI_PROMPT.replace('[TOPIC]', current.title)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

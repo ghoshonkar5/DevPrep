@@ -6,6 +6,7 @@ import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 import type { Problem, Phase } from '../data/dsa';
 import { SQL_ROADMAP as SQL_DATA } from '../data/sql';
 import { CS_CORE_ROADMAP } from '../data/cs-core';
+import { TCS_NQT_ROADMAP } from '../data/tcs-nqt';
 import { ExternalLink, Star, FileText, SearchX, ArrowLeft, Search } from 'lucide-react';
 
 interface ProblemTableProps {
@@ -15,7 +16,7 @@ interface ProblemTableProps {
 
 export const ProblemTable: React.FC<ProblemTableProps> = ({ onOpenNote, onShowToast }) => {
   const { activeTab, dsaOption, activePhaseId, setActivePhaseId, filters, setFilters, getStatus, setStatus, isBookmarked, toggleBookmark, getNote, resetFilters, isDoneInOtherList } = useStateContext();
-  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_DATA : CS_CORE_ROADMAP;
+  const roadmap = activeTab === 'dsa' ? (dsaOption === 'standard' ? INSTA_DSA_ROADMAP : DSA_ROADMAP) : activeTab === 'sql' ? SQL_DATA : activeTab === 'cs-core' ? CS_CORE_ROADMAP : TCS_NQT_ROADMAP;
 
   const filterProblem = (prob: Problem, phaseId: number | string): boolean => {
     const probId = `${phaseId}_${prob.n}`;
@@ -457,7 +458,7 @@ export const ProblemTable: React.FC<ProblemTableProps> = ({ onOpenNote, onShowTo
                 {roadmap.phases.find((p) => p.id === activePhaseId)?.name || `Phase ${activePhaseId}`}
               </h2>
               <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                {activeTab === 'dsa' ? 'Data Structures & Algorithms' : activeTab === 'sql' ? 'SQL Database Curriculum' : 'CS Core & Tech Prep'}
+                {activeTab === 'dsa' ? 'Data Structures & Algorithms' : activeTab === 'sql' ? 'SQL Database Curriculum' : activeTab === 'cs-core' ? 'CS Core & Tech Prep' : 'TCS NQT 2026 Master Curriculum'}
               </p>
             </div>
           </div>
