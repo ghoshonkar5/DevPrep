@@ -565,9 +565,35 @@ export const OverviewDashboard: React.FC = () => {
                       <div className="p-4 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 flex-1">
                         <h4 className="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3 flex items-center gap-1.5">
                           <Target className="w-4 h-4" />
-                          <span>Practice MCQs ({current.practiceQuestions.length} Questions)</span>
+                          <span>Practice {current.passages && current.passages.length > 0 ? `Passages (${current.passages.length})` : `MCQs (${current.practiceQuestions.length} Questions)`}</span>
                         </h4>
-                        <div className="flex flex-col gap-4 max-h-[420px] overflow-y-auto pr-1 scrollbar-thin">
+                        <div className="flex flex-col gap-4 max-h-[520px] overflow-y-auto pr-1 scrollbar-thin">
+                          {/* Passage-based questions (for Verbal topics like RC) */}
+                          {current.passages && current.passages.length > 0 && current.passages.map((passage, pi) => (
+                            <div key={pi} className="flex flex-col gap-3">
+                              <div className="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200/60 dark:border-indigo-500/30">
+                                <div className="text-[10px] font-black uppercase tracking-wider text-indigo-500 dark:text-indigo-400 mb-1.5">Passage {pi + 1}</div>
+                                <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 leading-relaxed italic">
+                                  "{passage.text}"
+                                </p>
+                              </div>
+                              {passage.questions.map((pq, qi) => (
+                                <div key={qi} className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-700/40 border border-zinc-200/60 dark:border-zinc-600/60 ml-2">
+                                  <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+                                    Q{pi * 5 + qi + 1}. {pq.q}
+                                  </div>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                    {pq.options.map((opt, j) => (
+                                      <div key={j} className="px-2.5 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                                        {opt}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                          {/* Regular MCQs */}
                           {current.practiceQuestions.map((pq, i) => (
                             <div key={i} className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-700/40 border border-zinc-200/60 dark:border-zinc-600/60">
                               <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 mb-2">
