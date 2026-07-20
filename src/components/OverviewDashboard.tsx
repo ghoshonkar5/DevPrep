@@ -653,7 +653,6 @@ export const OverviewDashboard: React.FC = () => {
                 );
               })()}
             </div>
-            </div>
 
             {/* C++ Cheat Sheet Center */}
             <div className="mt-8">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 
 const topics = [
@@ -603,7 +603,7 @@ export const TcsCppCheatSheet = () => {
               <div key={idx} style={{
                 background: "#1e293b",
                 borderRadius: "10px",
-                border: \`1px solid \${isOpen ? topic.color + "55" : "#334155"}\`,
+                border: `1px solid ${isOpen ? topic.color + "55" : "#334155"}`,
                 overflow: "hidden",
                 transition: "border-color 0.2s"
               }}>
@@ -674,11 +674,11 @@ export const TcsCppCheatSheet = () => {
                         whiteSpace: "pre"
                       }}>{p.code}</pre>
                       <button
-                        onClick={() => handleCopy(p.code, \`\${activeTopic}-\${idx}\`)}
+                        onClick={() => handleCopy(p.code, `${activeTopic}-${idx}`)}
                         style={{
                           position: "absolute", top: "36px", right: "12px",
-                          background: copied === \`\${activeTopic}-\${idx}\` ? "#10b981" : "#1e293b",
-                          color: copied === \`\${activeTopic}-\${idx}\` ? "#fff" : "#64748b",
+                          background: copied === `${activeTopic}-${idx}` ? "#10b981" : "#1e293b",
+                          color: copied === `${activeTopic}-${idx}` ? "#fff" : "#64748b",
                           border: "1px solid #334155",
                           borderRadius: "6px", padding: "4px 10px",
                           fontSize: "11px", cursor: "pointer", fontWeight: "600",
@@ -687,7 +687,7 @@ export const TcsCppCheatSheet = () => {
                           alignItems: "center",
                           gap: "4px"
                         }}>
-                        {copied === \`\${activeTopic}-\${idx}\` ? (
+                        {copied === `${activeTopic}-${idx}` ? (
                           <>
                             <Check className="w-3 h-3" /> Copied!
                           </>
