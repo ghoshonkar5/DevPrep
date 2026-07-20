@@ -5,7 +5,7 @@ import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 import { SQL_ROADMAP as SQL_DATA } from '../data/sql';
 import { CS_CORE_ROADMAP } from '../data/cs-core';
 import { TCS_NQT_ROADMAP } from '../data/tcs-nqt';
-import { LayoutDashboard, CheckCircle2, X, Download, Upload } from 'lucide-react';
+import { LayoutDashboard, CheckCircle2, X, Download, Upload, BookOpen, Bookmark } from 'lucide-react';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -162,6 +162,66 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onShowToast }
               <div className="text-xs truncate">Overview Dashboard</div>
             </div>
           </div>
+
+          {activeTab === 'tcs-nqt' && (
+            <>
+              <div
+                onClick={() => {
+                  setActivePhaseId(-2);
+                  onClose?.();
+                }}
+                className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all border relative ${
+                  activePhaseId === -2
+                    ? 'bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-bold'
+                    : 'bg-transparent border-transparent hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300'
+                }`}
+              >
+                {activePhaseId === -2 && (
+                  <div className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full shadow-sm shadow-indigo-500" />
+                )}
+                <div
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
+                    activePhaseId === -2
+                      ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/30'
+                      : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400'
+                  }`}
+                >
+                  <BookOpen className="w-3.5 h-3.5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs truncate">C++ Cheat Sheet</div>
+                </div>
+              </div>
+
+              <div
+                onClick={() => {
+                  setActivePhaseId(-3);
+                  onClose?.();
+                }}
+                className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all border relative ${
+                  activePhaseId === -3
+                    ? 'bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-bold'
+                    : 'bg-transparent border-transparent hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300'
+                }`}
+              >
+                {activePhaseId === -3 && (
+                  <div className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full shadow-sm shadow-indigo-500" />
+                )}
+                <div
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 ${
+                    activePhaseId === -3
+                      ? 'bg-indigo-600 text-white shadow-xs shadow-indigo-500/30'
+                      : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400'
+                  }`}
+                >
+                  <Bookmark className="w-3.5 h-3.5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs truncate">Question Framing Guide</div>
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="my-1 border-t border-zinc-200 dark:border-zinc-800/80" />
 

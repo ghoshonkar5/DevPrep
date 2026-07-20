@@ -6,6 +6,8 @@ import { OverviewDashboard } from './components/OverviewDashboard';
 import { ProblemTable } from './components/ProblemTable';
 import { NoteModal } from './components/NoteModal';
 import { TimerModal } from './components/TimerModal';
+import { TcsCppCheatSheet } from './components/TcsCppCheatSheet';
+import { TcsFramingGuide } from './components/TcsFramingGuide';
 
 interface Toast {
   id: number;
@@ -55,6 +57,10 @@ const AppContent: React.FC = () => {
           <div className="max-w-7xl mx-auto pb-20">
             {activePhaseId === -1 ? (
               <OverviewDashboard />
+            ) : activePhaseId === -2 ? (
+              <TcsCppCheatSheet />
+            ) : activePhaseId === -3 ? (
+              <TcsFramingGuide />
             ) : (
               <ProblemTable onOpenNote={openNoteModal} onShowToast={showToast} />
             )}

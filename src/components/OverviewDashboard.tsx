@@ -5,7 +5,6 @@ import { INSTA_DSA_ROADMAP } from '../data/dsa-insta';
 import { SQL_ROADMAP } from '../data/sql';
 import { CS_CORE_ROADMAP, PRIORITY_GUIDE, SKIPPED_SUBJECTS } from '../data/cs-core';
 import { TCS_NQT_ROADMAP, TCS_ROLES, TCS_COACH_TOPICS, TCS_AI_PROMPT } from '../data/tcs-nqt';
-import { TcsCppCheatSheet } from './TcsCppCheatSheet';
 import { Search, Trophy, CheckCircle, AlertCircle, HelpCircle, Compass, ShieldAlert, Star, Clock, RotateCw, CheckCircle2, ArrowUpRight, Bookmark, Copy, Check, Award, Target, Zap, BookOpen, AlertTriangle } from 'lucide-react';
 
 interface DashboardItem {
@@ -652,11 +651,6 @@ export const OverviewDashboard: React.FC = () => {
                   </div>
                 );
               })()}
-            </div>
-
-            {/* C++ Cheat Sheet Center */}
-            <div className="mt-8">
-              <TcsCppCheatSheet />
             </div>
           </div>
         )}
